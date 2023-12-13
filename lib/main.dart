@@ -68,7 +68,7 @@ class _CalculatorUIState extends State<CalculatorUI> {
             ),
           ),
           const SizedBox(
-            height: 16.0,
+            height: 24.0,
           ),
           Container(
             padding: const EdgeInsets.all(16.0),
