@@ -1,3 +1,4 @@
+import 'package:calculator/digit_row_set.dart';
 import 'package:calculator/number_button.dart';
 import 'package:flutter/material.dart';
 
@@ -42,9 +43,9 @@ class CalculatorUI extends StatefulWidget {
 
 class _CalculatorUIState extends State<CalculatorUI> {
   num result = 0;
-  num number = 0;
+  String number = '';
   String operation = '';
-  num temp = 0;
+  String temp = '';
 
   @override
   Widget build(BuildContext context) {
@@ -78,34 +79,29 @@ class _CalculatorUIState extends State<CalculatorUI> {
                 NumberButton(
                   number: "1",
                   onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
+                    this.result = 0;
+                    number = "$number$result";
                   },
                 ),
                 NumberButton(
                   number: "2",
                   onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
+                    this.result = 0;
+                    number = "$number$result"; //02
                   },
                 ),
                 NumberButton(
                   number: "3",
                   onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
+                    this.result = 0;
+                    number = "$number$result";
                   },
                 ),
                 NumberButton(
                   number: "+",
                   onPress: (String op) {
                     temp = number;
+                    number = '';
                     operation = op;
                   },
                 )
@@ -120,19 +116,15 @@ class _CalculatorUIState extends State<CalculatorUI> {
                 NumberButton(
                   number: "4",
                   onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
+                    this.result = 0;
+                    number = "$number$result";
                   },
                 ),
                 NumberButton(
                   number: "5",
                   onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
+                    this.result = 0;
+                    number = "$number$result";
                   },
                 ),
                 NumberButton(
@@ -140,7 +132,7 @@ class _CalculatorUIState extends State<CalculatorUI> {
                   onPress: (String result) {
                     setState(() {
                       this.result = 0;
-                      number = num.parse(result);
+                      number = "$number$result";
                     });
                   },
                 ),
@@ -148,100 +140,78 @@ class _CalculatorUIState extends State<CalculatorUI> {
                   number: "-",
                   onPress: (String op) {
                     temp = number;
+                    number = '';
                     operation = op;
                   },
                 )
               ],
             ),
           ),
+          DigitRowSet(
+              first: "7",
+              second: "8",
+              third: "9",
+              fourth: "*",
+              onPress: (String result) {
+                if (result == '*') {
+                  temp = number;
+                  number = '';
+                  operation = result;
+                } else {
+                  this.result = 0;
+                  number = "$number$result";
+                }
+              }),
           Container(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 NumberButton(
-                  number: "7",
+                  number: ".",
                   onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
+                    this.result = 0;
+                    number = "$number$result";
                   },
                 ),
-                NumberButton(
-                  number: "8",
-                  onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
-                  },
-                ),
-                NumberButton(
-                  number: "9",
-                  onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
-                  },
-                ),
-                NumberButton(
-                  number: "*",
-                  onPress: (String op) {
-                    temp = number;
-                    operation = op;
-                  },
-                )
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // NumberButton(
-                //   number: ".",
-                //   onPress: (String number) {
-                //     print(number);
-                //   },
-                // ),
                 NumberButton(
                   number: "0",
                   onPress: (String result) {
-                    setState(() {
-                      this.result = 0;
-                      number = num.parse(result);
-                    });
+                    this.result = 0;
+                    number = "$number$result";
                   },
                 ),
                 NumberButton(
                   number: "/",
                   onPress: (String op) {
                     temp = number;
+                    number = '';
                     operation = op;
                   },
                 ),
                 NumberButton(
                   number: "=",
                   onPress: (_) {
+                    num left = num.parse(temp);
+                    num right = num.parse(number);
                     switch (operation) {
                       case '+':
-                        result = temp + number;
+                        result = left + right;
                         break;
                       case '-':
-                        result = temp - number;
+                        result = left - right;
                         break;
                       case '*':
-                        result = temp * number;
+                        result = left * right;
                         break;
                       case '/':
-                        result = temp / number;
+                        result = left / right;
                         break;
                       default:
                         result = 0;
                     }
+                    number = '';
+                    temp = '';
                     setState(() {});
                   },
                 )
